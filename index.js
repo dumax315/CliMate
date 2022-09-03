@@ -5,71 +5,67 @@ var SUPABASE_KEY =
 var supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
 window.userToken = null
 
+
+
 document.addEventListener('DOMContentLoaded', function (event) {
-  var signUpForm = document.querySelector('#sign-up')
-  signUpForm.onsubmit = signUpSubmitted.bind(signUpForm)
-
-  var logInForm = document.querySelector('#log-in')
-  logInForm.onsubmit = logInSubmitted.bind(logInForm)
-
-  var logInFormGithub = document.querySelector('#log-in-Github')
-  logInFormGithub.onsubmit = logInSubmittedGithub.bind(logInFormGithub)
-
+  // code that runs after load
+  // connects the important functions to log out and fetch user details
 
   var userDetailsButton = document.querySelector('#user-button')
   userDetailsButton.onclick = fetchUserDetails.bind(userDetailsButton)
 
   var logoutButton = document.querySelector('#logout-button')
   logoutButton.onclick = logoutSubmitted.bind(logoutButton)
+
+  var getPointsButton = document.querySelector('#get-points-button')
+  getPointsButton.onclick = getUserPoints.bind(getPointsButton)
+  
+
+  // configers the ui based on the loged in user
+  if(supabase.auth.user() == null){
+    document.getElementById("signedin").style.display = "none"
+    document.getElementById("notSignedin").style.display = "block"
+  }else{
+    document.getElementById("signedin").style.display = "block"
+    document.getElementById("notSignedin").style.display = "none"
+    document.getElementById("accountEmail").innerText = JSON.stringify(supabase.auth.user().email)
+  }
+  
+  console.log(supabase.auth.user())
 })
 
-const signUpSubmitted = (event) => {
-  event.preventDefault()
-  const email = event.target[0].value
-  const password = event.target[1].value
-
-  supabase.auth
-    .signUp({ email, password })
-    .then((response) => {
-      response.error ? alert(response.error.message) : setToken(response)
-    })
-    .catch((err) => {
-      alert(err)
-    })
-}
-
-const logInSubmitted = (event) => {
-  event.preventDefault()
-  const email = event.target[0].value
-  const password = event.target[1].value
-
-  supabase.auth
-    .signIn({ email, password })
-    .then((response) => {
-      response.error ? alert(response.error.message) : setToken(response)
-    })
-    .catch((err) => {
-      alert(err.response.text)
-    })
-}
-
-const logInSubmittedGithub = (event) => {
-  event.preventDefault()
-
-  supabase.auth
-    .signIn({provider: 'github',})
-    .then((response) => {
-      response.error ? alert(response.error.message) : setToken(response)
-    })
-    .catch((err) => {
-      alert(err.response.text)
-    })
-}
+// updates the loged in user in the envent of a laggy log in
+supabase.auth.onAuthStateChange((event, session) => {
+  if (event == 'SIGNED_IN'){
+    if(supabase.auth.user() == null){
+      document.getElementById("signedin").style.display = "none"
+      document.getElementById("notSignedin").style.display = "block"
+    }else{
+      document.getElementById("signedin").style.display = "block"
+      document.getElementById("notSignedin").style.display = "none"
+      document.getElementById("accountEmail").innerText = JSON.stringify(supabase.auth.user().email)
+    }
+    
+    console.log(supabase.auth.user())
+    console.log('SIGNED_IN', session)
+  }
+})
 
 
 const fetchUserDetails = () => {
   alert(JSON.stringify(supabase.auth.user()))
 }
+
+const getUserPoints = async() =>  {
+  // const { data, error } = await supabase.from('cities').select()
+  
+  // const { data, error } = await supabase.from('points').select()
+  const { data, error } = await supabase
+  .from('points')
+  .insert([{ user_id: supabase.auth.user().id}])
+  console.log(data)
+}
+
 
 const logoutSubmitted = (event) => {
   event.preventDefault()
@@ -84,14 +80,5 @@ const logoutSubmitted = (event) => {
     .catch((err) => {
       alert(err.response.text)
     })
-}
-
-function setToken(response) {
-  if (response.user.confirmation_sent_at && !response?.session?.access_token) {
-    alert('Confirmation Email Sent')
-  } else {
-    document.querySelector('#access-token').value = response.session.access_token
-    document.querySelector('#refresh-token').value = response.session.refresh_token
-    alert('Logged in as ' + response.user.email)
-  }
+  window.location.reload();
 }
