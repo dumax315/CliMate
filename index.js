@@ -18,7 +18,10 @@ document.addEventListener('DOMContentLoaded', function (event) {
   logoutButton.onclick = logoutSubmitted.bind(logoutButton)
 
   var getPointsButton = document.querySelector('#get-points-button')
-  getPointsButton.onclick = getUserPoints.bind(getPointsButton)
+  getPointsButton.onclick = updateUserPoints.bind(getPointsButton)
+
+  var addPointsButton = document.querySelector('#updatePointsFormButton')
+  addPointsButton.onclick = addUserPointsButton.bind(addPointsButton)
   
 
   // configers the ui based on the loged in user
@@ -56,14 +59,53 @@ const fetchUserDetails = () => {
   alert(JSON.stringify(supabase.auth.user()))
 }
 
+const updateUserPoints = async() =>  {
+  document.getElementById("points").innerText = await getUserPoints()
+}
+
+const updateUserPointsManual = async(val) =>  {
+  document.getElementById("points").innerText =val
+}
+
+
 const getUserPoints = async() =>  {
   // const { data, error } = await supabase.from('cities').select()
-  
-  // const { data, error } = await supabase.from('points').select()
-  const { data, error } = await supabase
+  let { data, error } = await supabase
   .from('points')
-  .insert([{ user_id: supabase.auth.user().id}])
+  .select("user_points")
+  .eq('user_id', supabase.auth.user().id)
+  // .where(user_id = supabase.auth.user().id)
   console.log(data)
+  if(data.length == 0){
+    let { data2, error } = await supabase
+    .from('points')
+    .insert([{ user_id: supabase.auth.user().id}])
+    console.log(data2)
+    return 0
+  }else{
+    return data[0]["user_points"]
+  }
+}
+
+const setUserPoints = async(newPoints) =>  {
+  // const { data, error } = await supabase.from('cities').select()
+  console.log(newPoints)
+  let { data, error } = await supabase
+  .from('points')
+  .update({ user_points: newPoints})
+  // .match({ user_points: newPoints})
+  .eq('user_id', supabase.auth.user().id)
+  
+}
+
+const addUserPointsButton = async (event) => {
+  event.preventDefault()
+  // console.log(event)
+  const pointToAdd = document.getElementById("numberToAdd").value
+  console.log(pointToAdd)
+  let currentPoints = await getUserPoints()
+  setUserPoints(parseInt(currentPoints)+parseInt(pointToAdd))
+  updateUserPointsManual(parseInt(currentPoints)+parseInt(pointToAdd))
 }
 
 

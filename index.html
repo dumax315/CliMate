@@ -10,16 +10,22 @@
 <body>
 <!--   Here is where it says if your loged in or if you need to log in -->
   <div id="signedin">Loged In As: <span id="accountEmail"></span>
-    <div class='section'>
-      <h3>Get Points</h3>
-      <button id='get-points-button'>Get Points</button>
-    </div>
+    
   
   </div>
   <div id="notSignedin">
     <a href="./signup.html">Sign up</a>
     <a href="./login.html">Log in</a> 
   </div>
+  <div class='section'>
+    <h3>Get Points</h3>
+    <button id='get-points-button'>Get Points</button>
+    <span id="points"></span>
+  </div>
+  <form id='updatePointsForm'>
+    <input type='number' name='pointsToAdd' id="numberToAdd" />
+    <input type='submit' id="updatePointsFormButton">
+  </form>
   <div class='container'>
       <div class='section'>
           <h3>Fetch User Details</h3>
