@@ -32,11 +32,11 @@
     <a href="./signup.html">Sign up</a>
     <a href="./login.html">Log in</a> 
   </div> -->
-  <div class='section'>
+<!--   <div class='section'>
     <h3>Get Points</h3>
     <button id='get-points-button'>Get Points</button>
     <span id="points"></span>
-  </div>
+  </div> -->
 <!--   <form id='updatePointsForm'>
     <input type='number' name='pointsToAdd' id="numberToAdd" />
     <input type='submit' id="updatePointsFormButton">
@@ -47,8 +47,20 @@
           <button id='user-button'>Fetch</button>
       </div>
     </div> -->
-
+  <h1>Read Articles to gain points</h1>
   <div id="articleContainerBox"></div>
+
+  <div class="footerMarginCorrect">
+  </div>
+  <footer>
+    <img src="images/lizard.png">
+    <h2 id="notSignedinPoints">
+      Log in to start earning points
+    </h2>
+    <h2 id="signedinPoints">
+      Points: <span id="points"></span>
+    </h2>
+  </footer>
   <script>
     async function loadArticles() {
       let { data, error } = await supabase

@@ -33,14 +33,18 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
   // configers the ui based on the loged in user
   if(supabase.auth.user() == null){
+    document.getElementById("signedinPoints").style.display = "none"
+    document.getElementById("notSignedinPoints").style.display = "inline"
     document.getElementById("signedin").style.display = "none"
     document.getElementById("notSignedin").style.display = "inline"
   }else{
     document.getElementById("signedin").style.display = "inline"
     document.getElementById("notSignedin").style.display = "none"
+    document.getElementById("signedinPoints").style.display = "inline"
+    document.getElementById("notSignedinPoints").style.display = "none"
     document.getElementById("accountEmail").innerText = JSON.stringify(supabase.auth.user().email)
   }
-  
+  updateUserPoints()
   console.log(supabase.auth.user())
 })
 
@@ -48,16 +52,21 @@ document.addEventListener('DOMContentLoaded', function (event) {
 supabase.auth.onAuthStateChange((event, session) => {
   if (event == 'SIGNED_IN'){
     if(supabase.auth.user() == null){
-      document.getElementById("signedin").style.display = "none"
-      document.getElementById("notSignedin").style.display = "inline"
-    }else{
-      document.getElementById("signedin").style.display = "inline"
-      document.getElementById("notSignedin").style.display = "none"
+    document.getElementById("signedinPoints").style.display = "none"
+    document.getElementById("notSignedinPoints").style.display = "inline"
+    document.getElementById("signedin").style.display = "none"
+    document.getElementById("notSignedin").style.display = "inline"
+  }else{
+    document.getElementById("signedin").style.display = "inline"
+    document.getElementById("notSignedin").style.display = "none"
+    document.getElementById("signedinPoints").style.display = "inline"
+    document.getElementById("notSignedinPoints").style.display = "none"
       document.getElementById("accountEmail").innerText = JSON.stringify(supabase.auth.user().email)
     }
     
     console.log(supabase.auth.user())
     console.log('SIGNED_IN', session)
+    updateUserPoints()
   }
 })
 
@@ -105,11 +114,8 @@ const setUserPoints = async(newPoints) =>  {
   
 }
 
-const addUserPointsButton = async (event) => {
-  event.preventDefault()
+const addUserPointsButton = async (pointToAdd) => {
   // console.log(event)
-  const pointToAdd = document.getElementById("numberToAdd").value
-  console.log(pointToAdd)
   let currentPoints = await getUserPoints()
   setUserPoints(parseInt(currentPoints)+parseInt(pointToAdd))
   updateUserPointsManual(parseInt(currentPoints)+parseInt(pointToAdd))
