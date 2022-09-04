@@ -23,25 +23,52 @@
     
   </div>
   <div class='container'>   
-    <div class='section'>
-      <form id='log-in'>
-        <h3>Log In</h3>
-        <label>Email</label><input type='email' name='email' />
-        <label>Password</label><input type='password' name='password' />
-        <input type='submit'>
-      </form>
-      <form id='log-in-Github'>
-        <h3>Log In with Github (recomeneded)</h3>
-      
-        <input type='submit'>
-      </form>
-    <form id='log-in-Google'>
-      <h3>Log In with Google</h3>
+    <div class='section' id="leftMainSignin">
+      <div class="homeTitleLogin">
+        <h1>Log in To Your Account</h1>
+      </div>
+
+      <div class="loginFlexContainer">
+        <form id='log-in-Github' class="socialLog">
+          <img src="images/github.png">
+        
+          <input type='submit' value="Login with Github (recomeneded)">
+        </form>
+        <form id='log-in-Google' class="socialLog">
+          <img src="images/google.png">
+
+          <input type='submit' value="Login with Google">
+        </form>
+      </div>
     
-      <input type='submit'>
-    </form>
+      <form id='log-in'>
+        <h2>Log In with email and password</h2>
+        <input placeholder="Email" type='email' name='email' /><br>
+        <input placeholder="Password" type='password' name='password' /><br>
+        <input type='submit'>
+      </form>
     </div>
+    <div class='section' id="rightAltSignin">
+      <div class="homeTitleLogin">
+        <h1>New Here?</h1>
+        
+      </div>
+      <form class="socialLog" action="./signup.html">
+        <input type='submit' value="Sign Up">
+      </form>
+      <img src="images/lizard.png">
+    </div>
+    
   </div>
+  <div class="footerMarginCorrect">
+  </div>
+    <footer>
+    <img src="images/lizard.png">
+    <h2 id="notSignedinPoints">
+      Log in to start earning points
+    </h2>
+
+  </footer>
 </body>
 
 </html>

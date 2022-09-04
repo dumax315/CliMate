@@ -16,31 +16,57 @@
       <a href="./">Home</a>
       <a href="./Knowledge.html">Knowledge</a>
       <a href="./Action.html">Action</a>
-      <a href="./signup.html" class="active">Sign up</a>
-      <a href="./login.html">Log in</a> 
+      <a class="active" href="./signup.html">Sign up</a>
+      <a href="./login.html" >Log in</a> 
       
     </div>
     
   </div>
-  <div class='section'>
-    <form id='sign-up'>
-        <h3>Sign Up</h3>
-        <label>Email</label><input type='email' name='email' />
-        <label>Password</label><input type='password' name='password' />
+  <div class='container'>   
+    <div class='section' id="leftMainSignin">
+      <div class="homeTitleLogin">
+        <h1>Create Your Account</h1>
+      </div>
+
+      <div class="loginFlexContainer">
+        <form id='log-in-Github' class="socialLog">
+          <img src="images/github.png">
+        
+          <input type='submit' value="Sign Up with Github (recomeneded)">
+        </form>
+        <form id='log-in-Google' class="socialLog">
+          <img src="images/google.png">
+
+          <input type='submit' value="Sign Up with Google">
+        </form>
+      </div>
+      <form id='sign-up'>
+        <h2>Sign Up with email and password</h2>
+        <input placeholder="Email" type='email' name='email' /><br>
+        <input placeholder="Password" type='password' name='password' /><br>
         <input type='submit'>
-    </form>
-   
-    <form id='log-in-Github'>
-        <h3>Log In with Github (recomeneded)</h3>
-      
-        <input type='submit'>
-    </form>
-    <form id='log-in-Google'>
-      <h3>Log In with Google</h3>
-    
-      <input type='submit'>
-    </form>
+      </form>
+    </div>
+    <div class='section' id="rightAltSignin">
+      <div class="homeTitleLogin">
+        <h1>Already Have <br></br>an Account?</h1>
+        
+      </div>
+      <form class="socialLog" action="./login.html">
+        <input type='submit' value="Log In">
+      </form>
+      <img src="images/lizard.png">
+    </div></div>
+    <div class="footerMarginCorrect">
   </div>
+    <footer>
+    <img src="images/lizard.png">
+    <h2 id="notSignedinPoints">
+      Sign up to start earning points
+    </h2>
+
+  </footer>
+  
 </body>
 
 </html>

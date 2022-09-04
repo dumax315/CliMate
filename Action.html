@@ -16,8 +16,8 @@
     
     <div class="header-right">
       <a href="./">Home</a>
-      <a class="active" href="./Knowledge.html">Knowledge</a>
-      <a href="./Action.html">Action</a>
+      <a  href="./Knowledge.html">Knowledge</a>
+      <a class="active" href="./Action.html">Action</a>
       <span id="notSignedin">
         <a href="./signup.html">Sign up</a>
         <a href="./login.html">Log in</a> 
@@ -54,8 +54,7 @@
   </div>
   <div id="taskContainerBox"></div>
   
-  <div class="footerMarginCorrect">
-  </div>
+  <div class="footerMarginCorrect"></div>
   <footer>
     <img src="images/lizard.png">
     <h2 id="notSignedinPoints">
@@ -148,9 +147,7 @@
         const newArticle = document.createElement("div");
         newArticle.classList.add("toHover");
 
-        newArticle.onclick = function () {
-          completeTask(listOfActions[i].shortName, listOfActions[i].pointValue)
-        };
+        
         
         let myImage = new Image();
         myImage.src = "/images/" + listOfActions[i].image;
@@ -161,6 +158,9 @@
         checkMark.src = "/images/checkmark.png";
         if(userDataTasks[listOfActions[i].shortName] == false){
           checkMark.classList.add("checkMark");
+          newArticle.onclick = function () {
+            completeTask(listOfActions[i].shortName, listOfActions[i].pointValue)
+          };
         } else{
           checkMark.classList.add("checkMarked");
         }

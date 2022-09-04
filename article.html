@@ -87,7 +87,7 @@
       try{
       if(spentTime >= articlePointsToGive/250*30000){
         
-        addUserPointsButton(articlePointsToGive)
+        addUserPointsButton(Math.floor(articlePointsToGive))
         // let { data, error } = await supabase
         //   .from('points')
         //   .update({ user_points: articlePointsToGive})
@@ -97,8 +97,9 @@
       }else{
         alert("please read article for "+((articlePointsToGive/250*30000-spentTime)/1000).toString()+" more seconds to be eligible for points")
       }}
-      catch{
-        window.location.href = "../../login.html";
+      catch (error){
+        console.error(error);
+        // window.location.href = "../../login.html";
       }
     }
     

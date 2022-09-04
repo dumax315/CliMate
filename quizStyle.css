@@ -1,0 +1,66 @@
+#quiz {  display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    gap: 20px 20px;
+    grid-auto-flow: row;
+    grid-template-areas:
+    "question question"
+    "option0 option1"
+    "option2 option3"
+    "feedback feedback"
+    "next next";
+    border-radius: 25px;
+    background-color: lightgreen;
+    padding: 30px;
+    width: 90vw;
+    height: 90vh;
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto;
+}
+
+.option{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    border-radius: 12px;
+}
+
+#question {
+    grid-area: question;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 25px;
+    background-color: white;
+}
+
+#option0 { grid-area: option0; }
+
+#option1 { grid-area: option1; }
+
+#option2 { grid-area: option2; }
+
+#option3 { grid-area: option3; }
+
+#feedback {
+    grid-area: feedback;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#next {
+    grid-area: next;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#question {
+  font-size: 25px;
+}
+.option {
+  font-size: xx-large;
+}
