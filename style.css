@@ -196,3 +196,54 @@ footer img {
 .homeTitle h1 {
   font-size: 52px;
 }
+
+
+/* style for the action page */
+.sectionHead {
+  margin:2em;
+  margin-left:3em;
+}
+#taskContainerBox div {
+  background: lightgreen;
+  border-radius: 25px;
+  display: flex;
+  padding: 1em;
+  width: 250px;
+  margin-bottom: 2em;
+  align-items: center;
+}
+#taskContainerBox {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  max-width: 999px;
+  margin:auto;
+}
+#taskContainerBox .taskImage {
+  width: 134px;
+  height: min-content;
+  margin-right: 1em;
+}
+
+
+#taskContainerBox p {
+  margin: 0;
+}
+.toHover .checkMark { display: none; }
+.toHover:hover .checkMark { 
+  display: block;
+  position: absolute;
+  width: 115px;
+  opacity: .9;
+}
+
+.checkMarked { 
+  display: block;
+  position: absolute;
+  width: 115px;
+  opacity: .9;
+}
+
+.toHover:hover { 
+  background: #cffcd2 !important;
+}

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="./index.js"></script>
+  <title>CliMate</title>
+    <link rel="stylesheet" type="text/css" href="./style.css">
+</head>
+
+<body>
+<!--   here is the header with the -->
+  <div class="header">
+    <a href="./" class="logo">CliMate <img src="/images/logo.png"></a>
+    
+    <div class="header-right">
+      <a href="./">Home</a>
+      <a class="active" href="./Knowledge.html">Knowledge</a>
+      <a href="./Action.html">Action</a>
+      <span id="notSignedin">
+        <a href="./signup.html">Sign up</a>
+        <a href="./login.html">Log in</a> 
+      </span>
+      <div id="signedin">Loged In As: <span id="accountEmail"></span>
+      <button id='logout-button'>Logout</button></div>
+    </div>
+    
+  </div>
+<!--   Here is where it says if your loged in or if you need to log in -->
+<!--   <div id="signedin">Loged In As: <span id="accountEmail"></span></div> -->
+<!--   <div id="notSignedin">
+    <a href="./signup.html">Sign up</a>
+    <a href="./login.html">Log in</a> 
+  </div> -->
+<!--   <div class='section'>
+    <h3>Get Points</h3>
+    <button id='get-points-button'>Get Points</button>
+    <span id="points"></span>
+  </div> -->
+<!--   <form id='updatePointsForm'>
+    <input type='number' name='pointsToAdd' id="numberToAdd" />
+    <input type='submit' id="updatePointsFormButton">
+  </form> -->
+<!--   <div class='container'>
+      <div class='section'>
+          <h3>Fetch User Details</h3>
+          <button id='user-button'>Fetch</button>
+      </div>
+    </div> -->
+  <div class="sectionHead">
+    <h1>How to Take Action (and get points)</h1>
+    <h3>Take Action to Gain Points! (check off when completed)</h1>
+  </div>
+  <div id="taskContainerBox"></div>
+  
+  <div class="footerMarginCorrect">
+  </div>
+  <footer>
+    <img src="images/lizard.png">
+    <h2 id="notSignedinPoints">
+      Log in to start earning points
+    </h2>
+    <h2 id="signedinPoints">
+      Points: <span id="points"></span>
+    </h2>
+  </footer>
+  <script>
+    const listOfActions = [
+      {
+        shortName:"bikeOrWalk",
+        longName:"Bike or walk instead of using a vehicle to reduce fossil fuel.",
+        pointValue:750,
+        image:"bike.png"
+      },
+      {
+        shortName:"growAPlant",
+        longName:"Grow a plant in your backyard.",
+        pointValue:1000,
+        image:"plant.png"
+      },
+      {
+        shortName:"wearReusable",
+        longName:"Reusable masks to reduce waste",
+        pointValue:500,
+        image:"mask.png"
+      },
+      {
+        shortName:"recycle",
+        longName:"Be sure to recycle your waste",
+        pointValue:500,
+        image:"recycle.png"
+      },
+      {
+        shortName:"saveEnergy",
+        longName:"Save energy by turning off lights when not in use.",
+        pointValue:500,
+        image:"energy.png"
+      },
+      {
+        shortName:"takeShower",
+        longName:"Take a 5 minute shower",
+        pointValue:500,
+        image:"shower.png"
+      },
+    ]
+    async function loadTasks() {
+      console.log(supabase.auth.user())
+      let userDataTasks = {}
+      if(supabase.auth.user() == null){
+        alert("log in to recieve points for tasks")
+        userDataTasks = {
+                "bikeOrWalk": false,
+                "growAPlant": false,
+                "wearReusable": false,
+                "recycle": false,
+                "saveEnergy": false,
+                "takeShower": false
+              }
+      } else{
+        // const { data, error } = await supabase.from('cities').select()
+        let { data, error } = await supabase
+          .from('tasks')
+          .select()
+          .eq('user_id', supabase.auth.user().id)
+        // .where(user_id = supabase.auth.user().id)
+        console.log(data)
+        if(data.length == 0){
+          let { data2, error } = await supabase
+            .from('tasks')
+            .insert([{ user_id: supabase.auth.user().id}])
+          console.log(data2)
+          userDataTasks =  {
+                "bikeOrWalk": false,
+                "growAPlant": false,
+                "wearReusable": false,
+                "recycle": false,
+                "saveEnergy": false,
+                "takeShower": false
+              }
+        }else{
+          userDataTasks =  data[0]
+        }
+      }
+
+      for (let i = 0; i < listOfActions.length; i++) {
+        // create a new div element
+        const newArticle = document.createElement("div");
+        newArticle.classList.add("toHover");
+
+        newArticle.onclick = function () {
+          completeTask(listOfActions[i].shortName, listOfActions[i].pointValue)
+        };
+        
+        let myImage = new Image();
+        myImage.src = "/images/" + listOfActions[i].image;
+        myImage.classList.add("taskImage");
+        newArticle.appendChild(myImage);
+
+        let checkMark = new Image();
+        checkMark.src = "/images/checkmark.png";
+        if(userDataTasks[listOfActions[i].shortName] == false){
+          checkMark.classList.add("checkMark");
+        } else{
+          checkMark.classList.add("checkMarked");
+        }
+        
+        newArticle.appendChild(checkMark);
+
+        // and give it some content
+        const title = document.createElement("p");
+
+        title.innerText = listOfActions[i].longName
+        // add the text node to the newly created div
+        newArticle.appendChild(title);
+      
+        // add the newly created element and its content into the DOM
+        const currentDiv = document.getElementById("taskContainerBox");
+        currentDiv.appendChild(newArticle);
+        
+      } 
+    }
+    loadTasks()
+
+    async function completeTask(article, points) {
+      // update api if loged in
+      if(supabase.auth.user() == null){
+        alert("log in to recieve points for tasks")
+        return null
+      }
+      let newData = {}
+      newData[article] = 1
+      // console.log(newData)
+      let { data, error } = await supabase
+        .from('tasks')
+        .update(newData)
+        // .match({ user_points: newPoints})
+        .eq('user_id', supabase.auth.user().id)
+
+      addUserPointsButton(points)
+      alert("you got "+points+" points")
+      setTimeout(function(){
+        const e = document.getElementById("taskContainerBox");
+        //e.firstElementChild can be used.
+        var child = e.lastElementChild; 
+        while (child) {
+            e.removeChild(child);
+            child = e.lastElementChild;
+        }
+        loadTasks()
+        updateUserPoints()
+      }, 1000);
+      
+    }
+    
+    
+  </script>
+</body>
+
+</html>

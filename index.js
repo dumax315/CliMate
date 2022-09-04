@@ -86,10 +86,13 @@ const updateUserPointsManual = async(val) =>  {
 
 const getUserPoints = async() =>  {
   // const { data, error } = await supabase.from('cities').select()
+  if(supabase.auth.user() == null){
+    return 0
+  }
   let { data, error } = await supabase
-  .from('points')
-  .select("user_points")
-  .eq('user_id', supabase.auth.user().id)
+    .from('points')
+    .select("user_points")
+    .eq('user_id', supabase.auth.user().id)
   // .where(user_id = supabase.auth.user().id)
   console.log(data)
   if(data.length == 0){
