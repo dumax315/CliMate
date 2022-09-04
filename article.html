@@ -1,0 +1,81 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="./index.js"></script>
+    <link rel="stylesheet" type="text/css" href="./style.css">
+</head>
+
+<body>
+<!--   Here is where it says if your loged in or if you need to log in -->
+  <div id="signedin">Loged In As: <span id="accountEmail"></span>
+    
+  
+  </div>
+  <div id="notSignedin">
+  </div>
+  <h2 id="articleTitle">
+    
+  </h2>
+  <article id="mainArticleContainer"></article>
+
+
+  <button id="claimPoints" onclick="claimPoints()">Claim <span id="pointsForArt"></span> Points</button>
+  <script>
+    let startDate = new Date();
+    
+    const params = new Proxy(new URLSearchParams(window.location.search), {
+      get: (searchParams, prop) => searchParams.get(prop),
+    });
+    // Get the value of "some_key" in eg "https://example.com/?some_key=some_value"
+    let shortId = params.shortId; // "some_value"
+
+    async function downloadArticle() {
+      let { data, error } = await supabase
+        .from('articles')
+        .select()
+        .eq('shortId', shortId)
+  
+      console.log(data)
+      document.getElementById("mainArticleContainer").innerHTML = data[0]["contents"]
+      document.getElementById("articleTitle").innerHTML = data[0]["title"]
+
+     //figure out how many points the article is worth
+      document.getElementById("pointsForArt").innerText = document.getElementById("mainArticleContainer").innerText.split(" ").length 
+
+      console.log(document.getElementById("mainArticleContainer").innerText.split(" ").length/250*30000)
+      // return (data[0]["contents"])
+    }
+
+    downloadArticle()
+
+
+    async function claimPoints() {
+      const endDate = new Date();
+      const spentTime = endDate.getTime() - startDate.getTime();
+      const articlePointsToGive = document.getElementById("mainArticleContainer").innerText.split(" ").length;
+      console.log(articlePointsToGive/250*30000)
+      try{
+      if(spentTime <= articlePointsToGive/250*30000){
+        
+      
+        let { data, error } = await supabase
+          .from('points')
+          .update({ user_points: articlePointsToGive})
+          // .match({ user_points: newPoints})
+          .eq('user_id', supabase.auth.user().id)
+        window.location.href = "../../index.html";
+      }else{
+        alert("please read article to be eligible for points")
+      }}
+      catch{
+        window.location.href = "../../login.html";
+      }
+    }
+    
+    
+  </script>
+</body>
+
+</html>

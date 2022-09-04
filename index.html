@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -8,35 +9,24 @@
 </head>
 
 <body>
-<!--   Here is where it says if your loged in or if you need to log in -->
-  <div id="signedin">Loged In As: <span id="accountEmail"></span>
+<!--   here is the header with the -->
+  <div class="header">
+    <a href="#default" class="logo">CliMate <img src="/images/logo.png"></a>
     
-  
-  </div>
-  <div id="notSignedin">
-    <a href="./signup.html">Sign up</a>
-    <a href="./login.html">Log in</a> 
-  </div>
-  <div class='section'>
-    <h3>Get Points</h3>
-    <button id='get-points-button'>Get Points</button>
-    <span id="points"></span>
-  </div>
-  <form id='updatePointsForm'>
-    <input type='number' name='pointsToAdd' id="numberToAdd" />
-    <input type='submit' id="updatePointsFormButton">
-  </form>
-  <div class='container'>
-      <div class='section'>
-          <h3>Fetch User Details</h3>
-          <button id='user-button'>Fetch</button>
-      </div>
-      
-      <div class='section'>
-          <h3>Logout</h3>
-          <button id='logout-button'>Logout</button>
-      </div>
+    <div class="header-right">
+      <a class="active" href="">Home</a>
+      <a href="./Knowledge.html">Knowledge</a>
+      <a href="./Action.html">Action</a>
+      <span id="notSignedin">
+        <a href="./signup.html">Sign up</a>
+        <a href="./login.html">Log in</a> 
+      </span>
+      <div id="signedin">Loged In As: <span id="accountEmail"></span>
+      <button id='logout-button'>Logout</button></div>
     </div>
+    
+  </div>
+  
 </body>
 
 </html>

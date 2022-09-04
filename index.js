@@ -11,25 +11,32 @@ document.addEventListener('DOMContentLoaded', function (event) {
   // code that runs after load
   // connects the important functions to log out and fetch user details
 
-  var userDetailsButton = document.querySelector('#user-button')
-  userDetailsButton.onclick = fetchUserDetails.bind(userDetailsButton)
-
-  var logoutButton = document.querySelector('#logout-button')
-  logoutButton.onclick = logoutSubmitted.bind(logoutButton)
-
-  var getPointsButton = document.querySelector('#get-points-button')
-  getPointsButton.onclick = updateUserPoints.bind(getPointsButton)
-
-  var addPointsButton = document.querySelector('#updatePointsFormButton')
-  addPointsButton.onclick = addUserPointsButton.bind(addPointsButton)
+  try {
+    // var userDetailsButton = document.querySelector('#user-button')
+    // userDetailsButton.onclick = fetchUserDetails.bind(userDetailsButton)
+  
+    var logoutButton = document.querySelector('#logout-button')
+    logoutButton.onclick = logoutSubmitted.bind(logoutButton)
+    
+    // var getPointsButton = document.querySelector('#get-points-button')
+    // getPointsButton.onclick = updateUserPoints.bind(getPointsButton)
+  
+    // var addPointsButton = document.querySelector('#updatePointsFormButton')
+    // addPointsButton.onclick = addUserPointsButton.bind(addPointsButton)
+  } catch (error) {
+    console.error(error);
+    // expected output: ReferenceError: nonExistentFunction is not defined
+    // Note - error messages will vary depending on browser
+  }
+  
   
 
   // configers the ui based on the loged in user
   if(supabase.auth.user() == null){
     document.getElementById("signedin").style.display = "none"
-    document.getElementById("notSignedin").style.display = "block"
+    document.getElementById("notSignedin").style.display = "inline"
   }else{
-    document.getElementById("signedin").style.display = "block"
+    document.getElementById("signedin").style.display = "inline"
     document.getElementById("notSignedin").style.display = "none"
     document.getElementById("accountEmail").innerText = JSON.stringify(supabase.auth.user().email)
   }
@@ -42,9 +49,9 @@ supabase.auth.onAuthStateChange((event, session) => {
   if (event == 'SIGNED_IN'){
     if(supabase.auth.user() == null){
       document.getElementById("signedin").style.display = "none"
-      document.getElementById("notSignedin").style.display = "block"
+      document.getElementById("notSignedin").style.display = "inline"
     }else{
-      document.getElementById("signedin").style.display = "block"
+      document.getElementById("signedin").style.display = "inline"
       document.getElementById("notSignedin").style.display = "none"
       document.getElementById("accountEmail").innerText = JSON.stringify(supabase.auth.user().email)
     }

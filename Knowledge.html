@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="./index.js"></script>
+    <link rel="stylesheet" type="text/css" href="./style.css">
+</head>
+
+<body>
+<!--   here is the header with the -->
+  <div class="header">
+    <a href="./" class="logo">CliMate <img src="/images/logo.png"></a>
+    
+    <div class="header-right">
+      <a href="./">Home</a>
+      <a class="active" href="./Knowledge.html">Knowledge</a>
+      <a href="./Action.html">Action</a>
+      <span id="notSignedin">
+        <a href="./signup.html">Sign up</a>
+        <a href="./login.html">Log in</a> 
+      </span>
+      <div id="signedin">Loged In As: <span id="accountEmail"></span>
+      <button id='logout-button'>Logout</button></div>
+    </div>
+    
+  </div>
+<!--   Here is where it says if your loged in or if you need to log in -->
+<!--   <div id="signedin">Loged In As: <span id="accountEmail"></span></div> -->
+<!--   <div id="notSignedin">
+    <a href="./signup.html">Sign up</a>
+    <a href="./login.html">Log in</a> 
+  </div> -->
+  <div class='section'>
+    <h3>Get Points</h3>
+    <button id='get-points-button'>Get Points</button>
+    <span id="points"></span>
+  </div>
+<!--   <form id='updatePointsForm'>
+    <input type='number' name='pointsToAdd' id="numberToAdd" />
+    <input type='submit' id="updatePointsFormButton">
+  </form> -->
+<!--   <div class='container'>
+      <div class='section'>
+          <h3>Fetch User Details</h3>
+          <button id='user-button'>Fetch</button>
+      </div>
+    </div> -->
+
+  <div id="articleContainerBox"></div>
+  <script>
+    async function loadArticles() {
+      let { data, error } = await supabase
+        .from('articles')
+        .select()
+      console.log("yoyo")
+      console.log(data)
+
+      for (let i = 0; i < data.length; i++) {
+        // create a new div element
+        const newArticle = document.createElement("div");
+
+        newArticle.onclick = function () {
+          openArticle(data[i].shortId)
+        };
+        
+        const myImage = new Image();
+        myImage.src = "/images/" + data[i].image;
+        newArticle.appendChild(myImage);
+
+        // and give it some content
+        const title = document.createElement("h3");
+
+        title.innerText = data[i].title
+        // add the text node to the newly created div
+        newArticle.appendChild(title);
+      
+        // add the newly created element and its content into the DOM
+        const currentDiv = document.getElementById("articleContainerBox");
+        currentDiv.appendChild(newArticle);
+        
+      } 
+    }
+    loadArticles()
+
+    function openArticle(article) {
+      window.location.href = "https://klimate-kiddos-3.theohal.repl.co/article.html?shortId=" + article;
+      
+    }
+    
+    
+  </script>
+</body>
+
+</html>
