@@ -4,7 +4,8 @@ body {
     'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: rgb(250, 217, 246);
+  background: rgb(191, 221, 198);
+/* background: linear-gradient(0deg, rgba(74,138,101,1) 0%, rgba(136,182,208,1) 100%); */
 }
 
 label {
